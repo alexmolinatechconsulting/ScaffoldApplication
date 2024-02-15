@@ -15,7 +15,8 @@ import org.koin.android.ext.android.get
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.NavType
-import com.example.scaffoldapplication.ui.details.MovieDetailScreen
+import com.example.scaffoldapplication.ui.details.DetailScreen
+import com.example.scaffoldapplication.ui.details.ImageScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -25,7 +26,6 @@ class MainActivity : ComponentActivity() {
         val viewModel = get<MovieListViewModel>()
 
         setContent {
-                // A surface container using the 'background' color from the theme
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
@@ -43,7 +43,16 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     ){ movieId ->
-                        MovieDetailScreen(viewModel, movieId.arguments?.getInt("movieId")!!, nav)
+                        DetailScreen(vm = viewModel, movieId = movieId.arguments?.getInt("movieId")!!, nav = nav)
+                    }
+                    composable(route = "Image/{movieId}",
+                        arguments = listOf(
+                            navArgument(name = "movieId") {
+                                type = NavType.IntType
+                            }
+                        )
+                    ){ movieId ->
+                        ImageScreen(vm = viewModel, movieId = movieId.arguments?.getInt("movieId")!!, nav = nav)
                     }
                 }
             }
